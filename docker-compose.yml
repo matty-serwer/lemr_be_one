@@ -1,0 +1,23 @@
+services:
+  db:
+    container_name: lemr-postgres-container
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgresUser
+      POSTGRES_PASSWORD: postgresPassword
+      POSTGRES_DB: lemr_one
+      PGDATA: /data/postgres
+    volumes:
+      - db:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - db
+    restart: unless-stopped
+
+networks:
+  db:
+    driver: bridge
+
+volumes:
+  db:

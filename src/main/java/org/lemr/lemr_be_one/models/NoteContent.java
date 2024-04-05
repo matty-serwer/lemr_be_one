@@ -6,6 +6,14 @@ import jakarta.persistence.Embeddable;
 public class NoteContent {
     private String text;
 
+    public NoteContent(String s) {
+        this.text = s;
+    }
+
+    public NoteContent() {
+
+    }
+
     public String getText() {
         return text;
     }

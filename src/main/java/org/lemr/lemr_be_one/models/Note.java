@@ -24,6 +24,18 @@ public class Note {
     @ElementCollection
     private List<NoteContent> content;
 
+    public Note() {
+    }
+
+    public Note(String id, String patientId, String author, ZonedDateTime dateTime, String type, List<NoteContent> content) {
+        this.id = id;
+        this.patientId = patientId;
+        this.author = author;
+        this.dateTime = dateTime;
+        this.type = type;
+        this.content = content;
+    }
+
     public String getId() {
         return id;
     }

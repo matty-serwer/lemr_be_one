@@ -29,7 +29,7 @@ public class NoteController {
     }
 
     @PostMapping
-    public void addNote(NewNoteRequest request) {
+    public void addNote(@RequestBody NewNoteRequest request) {
         noteService.addNote(request);
     }
 

@@ -27,12 +27,14 @@ public class NoteService {
     }
 
     public void addNote(NewNoteRequest request) {
+        System.out.println("request: " + request);
         Note note = new Note();
         note.setPatientId(request.patientId());
         note.setAuthor(request.author());
         note.setDateTime(ZonedDateTime.now());
         note.setType(request.type());
         note.setContent(request.content());
+        System.out.println("note: " + note);
         noteRepository.save(note);
     }
 
