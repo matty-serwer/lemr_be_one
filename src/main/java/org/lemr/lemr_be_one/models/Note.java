@@ -1,7 +1,6 @@
 package org.lemr.lemr_be_one.models;
 
 import jakarta.persistence.*;
-
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -11,27 +10,34 @@ public class Note {
     @Id
     private String id;
 
-    @PrePersist
-    public void generateId() {
-        this.id = UUID.randomUUID().toString();
-    }
-
-
     private String patientId;
     private String author;
-    private ZonedDateTime dateTime;
+    private ZonedDateTime createdAt;
+    private ZonedDateTime updatedAt;
     private String type;
     @ElementCollection
     private List<NoteContent> content;
 
+    @PrePersist
+    public void onCreate() {
+        this.id = UUID.randomUUID().toString();
+        this.createdAt = ZonedDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedAt = ZonedDateTime.now();
+    }
+
     public Note() {
     }
 
-    public Note(String id, String patientId, String author, ZonedDateTime dateTime, String type, List<NoteContent> content) {
+    public Note(String id, String patientId, String author, ZonedDateTime createdAt, ZonedDateTime updatedAt, String type, List<NoteContent> content) {
         this.id = id;
         this.patientId = patientId;
         this.author = author;
-        this.dateTime = dateTime;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.type = type;
         this.content = content;
     }
@@ -60,12 +66,20 @@ public class Note {
         this.author = author;
     }
 
-    public ZonedDateTime getDateTime() {
-        return dateTime;
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setDateTime(ZonedDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setCreatedAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public ZonedDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(ZonedDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public String getType() {

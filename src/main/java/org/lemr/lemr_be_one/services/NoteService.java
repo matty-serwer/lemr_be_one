@@ -6,7 +6,6 @@ import org.lemr.lemr_be_one.requests.NewNoteRequest;
 import org.lemr.lemr_be_one.requests.UpdateNoteRequest;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -17,6 +16,7 @@ public class NoteService {
         this.noteRepository = noteRepository;
     }
 
+    // GET /notes
     public List<Note> getNotes() {
         return noteRepository.findAll();
     }
@@ -25,15 +25,16 @@ public class NoteService {
         return noteRepository.findById(noteId).orElseThrow();
     }
 
+    public List<Note> getNotesByPatientId(String patientId) {
+        return noteRepository.findByPatientId(patientId);
+    }
+
     public void addNote(NewNoteRequest request) {
-        System.out.println("request: " + request);
         Note note = new Note();
         note.setPatientId(request.patientId());
         note.setAuthor(request.author());
-        note.setDateTime(ZonedDateTime.now());
         note.setType(request.type());
         note.setContent(request.content());
-        System.out.println("note: " + note);
         noteRepository.save(note);
     }
 
@@ -52,7 +53,6 @@ public class NoteService {
         if (request.content() != null) {
             note.setContent(request.content());
         }
-        note.setDateTime(ZonedDateTime.now());
 
         noteRepository.save(note);
     }
