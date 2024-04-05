@@ -1,6 +1,5 @@
 package org.lemr.lemr_be_one.services;
 
-import org.hibernate.sql.Update;
 import org.lemr.lemr_be_one.models.Note;
 import org.lemr.lemr_be_one.repositories.NoteRepository;
 import org.lemr.lemr_be_one.requests.NewNoteRequest;
@@ -40,11 +39,21 @@ public class NoteService {
 
     public void updateNote(String noteId, UpdateNoteRequest request) {
         Note note = noteRepository.findById(noteId).orElseThrow();
-        note.setPatientId(request.patientId());
-        note.setAuthor(request.author());
+
+        if (request.patientId() != null) {
+            note.setPatientId(request.patientId());
+        }
+        if (request.author() != null) {
+            note.setAuthor(request.author());
+        }
+        if (request.type() != null) {
+            note.setType(request.type());
+        }
+        if (request.content() != null) {
+            note.setContent(request.content());
+        }
         note.setDateTime(ZonedDateTime.now());
-        note.setType(request.type());
-        note.setContent(request.content());
+
         noteRepository.save(note);
     }
 
