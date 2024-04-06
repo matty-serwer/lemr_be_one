@@ -37,8 +37,9 @@ public class PatientController {
     }
 
     @PostMapping
-    public void addPatient(@RequestBody NewPatientRequest request) {
+    public ResponseEntity<String> addPatient(@RequestBody NewPatientRequest request) {
         patientService.addPatient(request);
+        return ResponseEntity.ok("Patient added successfully");
     }
 
     @PutMapping("/{id}")
