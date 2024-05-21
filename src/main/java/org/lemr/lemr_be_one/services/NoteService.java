@@ -1,5 +1,6 @@
 package org.lemr.lemr_be_one.services;
 
+import org.lemr.lemr_be_one.exceptions.NoteNotFoundException;
 import org.lemr.lemr_be_one.models.Note;
 import org.lemr.lemr_be_one.repositories.NoteRepository;
 import org.lemr.lemr_be_one.requests.NewNoteRequest;
@@ -22,7 +23,7 @@ public class NoteService {
     }
 
     public Note getNoteById(String noteId) {
-        return noteRepository.findById(noteId).orElseThrow();
+        return noteRepository.findById(noteId).orElseThrow(() -> new NoteNotFoundException("Note with ID " + noteId + " not found"));
     }
 
     public List<Note> getNotesByPatientId(String patientId) {
@@ -30,6 +31,19 @@ public class NoteService {
     }
 
     public void addNote(NewNoteRequest request) {
+        if (request.patientId() == null || request.patientId().isEmpty()) {
+            throw new IllegalArgumentException("Patient ID cannot be empty");
+        }
+        if (request.author() == null || request.author().isEmpty()) {
+            throw new IllegalArgumentException("Author cannot be empty");
+        }
+        if (request.type() == null || request.type().isEmpty()) {
+            throw new IllegalArgumentException("Type cannot be empty");
+        }
+        if (request.content() == null || request.content().isEmpty()) {
+            throw new IllegalArgumentException("Content cannot be empty");
+        }
+
         Note note = new Note();
         note.setPatientId(request.patientId());
         note.setAuthor(request.author());
@@ -39,18 +53,18 @@ public class NoteService {
     }
 
     public void updateNote(String noteId, UpdateNoteRequest request) {
-        Note note = noteRepository.findById(noteId).orElseThrow();
+        Note note = noteRepository.findById(noteId).orElseThrow(() -> new NoteNotFoundException("Note with ID " + noteId + " not found"));
 
-        if (request.patientId() != null) {
+        if (request.patientId() != null && !request.patientId().isEmpty()) {
             note.setPatientId(request.patientId());
         }
-        if (request.author() != null) {
+        if (request.author() != null && !request.author().isEmpty()) {
             note.setAuthor(request.author());
         }
-        if (request.type() != null) {
+        if (request.type() != null && !request.type().isEmpty()) {
             note.setType(request.type());
         }
-        if (request.content() != null) {
+        if (request.content() != null && !request.content().isEmpty()) {
             note.setContent(request.content());
         }
 
@@ -58,6 +72,7 @@ public class NoteService {
     }
 
     public void deleteNoteById(String noteId) {
+        Note note = noteRepository.findById(noteId).orElseThrow(() -> new NoteNotFoundException("Note with ID " + noteId + " not found"));
         noteRepository.deleteById(noteId);
     }
 }
