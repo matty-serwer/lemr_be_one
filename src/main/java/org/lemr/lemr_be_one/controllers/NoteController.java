@@ -28,13 +28,18 @@ public class NoteController {
         return noteService.getNoteById(noteId);
     }
 
+    @GetMapping(path = "byPatient/{patientId}")
+    public List<Note> getNotesByPatientId(@PathVariable("patientId") String patientId) {
+        return noteService.getNotesByPatientId(patientId);
+    }
+
     @PostMapping
     public void addNote(@RequestBody NewNoteRequest request) {
         noteService.addNote(request);
     }
 
     @PutMapping(path = "{noteId}")
-    public void updateNote(@PathVariable("noteId") String noteId, UpdateNoteRequest request) {
+    public void updateNote(@PathVariable("noteId") String noteId, @RequestBody UpdateNoteRequest request) {
         noteService.updateNote(noteId, request);
     }
 
