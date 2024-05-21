@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+lemr_one_spring_deployment.yaml
+Dockerfile
