@@ -21,7 +21,7 @@ public class DataSeeder {
     @Bean
     CommandLineRunner initDatabase(PatientRepository patientRepository, NoteRepository noteRepository) {
         return args -> {
-            if (patientRepository.count() > 0 && noteRepository.count() > 0) {
+            if (patientRepository.count() > 0 || noteRepository.count() > 0) {
                 // Database is already populated, so we can return early
                 return;
             }
