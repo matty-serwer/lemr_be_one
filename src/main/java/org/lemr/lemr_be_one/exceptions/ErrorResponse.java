@@ -2,22 +2,18 @@ package org.lemr.lemr_be_one.exceptions;
 
 public class ErrorResponse {
     private String message;
-    private int code;
+    private int statusCode;
 
-    // getters and setters
+    public ErrorResponse(String message, int statusCode) {
+        this.message = message;
+        this.statusCode = statusCode;
+    }
+
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
+    public int getStatusCode() {
+        return statusCode;
     }
 }
