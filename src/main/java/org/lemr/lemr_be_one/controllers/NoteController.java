@@ -1,5 +1,6 @@
 package org.lemr.lemr_be_one.controllers;
 
+import org.lemr.lemr_be_one.exceptions.InvalidRequestException;
 import org.lemr.lemr_be_one.models.Note;
 import org.lemr.lemr_be_one.requests.NewNoteRequest;
 import org.lemr.lemr_be_one.requests.UpdateNoteRequest;
@@ -35,11 +36,17 @@ public class NoteController {
 
     @PostMapping
     public void addNote(@RequestBody NewNoteRequest request) {
+        if (request.patientId() == null || request.patientId().isEmpty()) {
+            throw new InvalidRequestException("Patient id is required");
+        }
         noteService.addNote(request);
     }
 
     @PutMapping(path = "{noteId}")
     public void updateNote(@PathVariable("noteId") String noteId, @RequestBody UpdateNoteRequest request) {
+        if (request.patientId() == null || request.patientId().isEmpty()) {
+            throw new InvalidRequestException("Patient id is required");
+        }
         noteService.updateNote(noteId, request);
     }
 

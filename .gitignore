@@ -34,3 +34,5 @@ build/
 
 lemr_one_spring_deployment.yaml
 Dockerfile
+.DS_Store
+lemr-aws-key.pem
